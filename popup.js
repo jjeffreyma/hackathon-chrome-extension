@@ -15,17 +15,21 @@ window.onload = function () {
         document.getElementById('errorMessage').textContent = 'No camera available.';
     });
 
+    function appendImage() {
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        var image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        document.getElementById("photos").appendChild(image);
+        var node = document.createElement("p");
+        var textnode = document.createTextNode(Date().toString());
+        node.appendChild(textnode);
+        document.getElementById("photos").appendChild(node);
+    }
+
     if (document.getElementById("newtab").checked) {
         clearInterval(setinterval);
         chrome.tabs.onCreated.addListener(function () {
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            var image = new Image();
-            image.src = canvas.toDataURL("image/png");
-            document.getElementById("photos").appendChild(image);
-            var node = document.createElement("p");
-            var textnode = document.createTextNode(Date().toString());
-            node.appendChild(textnode);
-            document.getElementById("photos").appendChild(node);
+            appendImage();
         });
     }
 
@@ -33,14 +37,7 @@ window.onload = function () {
         if (document.getElementById("newtab").checked) {
             clearInterval(setinterval);
             chrome.tabs.onCreated.addListener(function () {
-                canvas.getContext('2d').drawImage(video, 0, 0);
-                var image = new Image();
-                image.src = canvas.toDataURL("image/png");
-                document.getElementById("photos").appendChild(image);
-                var node = document.createElement("p");
-                var textnode = document.createTextNode(Date().toString());
-                node.appendChild(textnode);
-                document.getElementById("photos").appendChild(node);
+                appendImage();
             });
         }
     });
@@ -49,14 +46,7 @@ window.onload = function () {
         e.preventDefault();
         let timeinterval = document.getElementById("timetextbox").value * 1000;
         setinterval = setInterval(function () {
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            var image = new Image();
-            image.src = canvas.toDataURL("image/png");
-            document.getElementById("photos").appendChild(image);
-            var node = document.createElement("p");
-            var textnode = document.createTextNode(Date().toString());
-            node.appendChild(textnode);
-            document.getElementById("photos").appendChild(node);
+            appendImage();
         }, timeinterval);
     });
 
